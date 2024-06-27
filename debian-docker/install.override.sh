@@ -1,10 +1,5 @@
 #!/bin/bash
 
-PANEL_BASE_DIR=/mnt/nvme0n1-4/test/1panel
-PANEL_PORT=10086
-DEFAULT_ENTRANCE="entrance"
-DEFAULT_USERNAME="1panel"
-DEFAULT_PASSWORD="1panel_password"
 
 CURRENT_DIR=$(
     cd "$(dirname "$0")"
@@ -31,8 +26,7 @@ log "======================= 开始安装 ======================="
 function Prepare_System(){
     if which 1panel >/dev/null 2>&1; then
         log "1Panel Linux 服务器运维管理面板已安装，请勿重复安装"
-        #exit 1
-        1panel
+        exit 1
     fi
 }
 
@@ -184,25 +178,24 @@ function Init_Panel(){
         ln -s /usr/local/bin/1pctl /usr/bin/1pctl >/dev/null 2>&1
     fi
 
-    # cp ./1panel.service /etc/systemd/system
-	# 
-    # systemctl enable 1panel; systemctl daemon-reload 2>&1 | tee -a ${CURRENT_DIR}/install.log
-	# 
-    # log "启动 1Panel 服务"
-    # systemctl start 1panel | tee -a ${CURRENT_DIR}/install.log
-	# 
-    # for b in {1..30}
-    # do
-    #     sleep 3
-    #     service_status=`systemctl status 1panel 2>&1 | grep Active`
-    #     if [[ $service_status == *running* ]];then
-    #         log "1Panel 服务启动成功!"
-    #         break;
-    #     else
-    #         log "1Panel 服务启动出错!"
-    #         exit 1
-    #     fi
-    # done
+    cp ./1panel.service /etc/systemd/system
+    systemctl enable 1panel; systemctl daemon-reload 2>&1 | tee -a ${CURRENT_DIR}/install.log
+	 
+    log "启动 1Panel 服务"
+    systemctl start 1panel | tee -a ${CURRENT_DIR}/install.log
+	 
+    for b in {1..30}
+    do
+        sleep 3
+        service_status=`systemctl status 1panel 2>&1 | grep Active`
+        if [[ $service_status == *running* ]];then
+            log "1Panel 服务启动成功!"
+            break;
+        else
+            log "1Panel 服务启动出错!"
+            exit 1
+        fi
+    done
 }
 
 function Show_Result(){

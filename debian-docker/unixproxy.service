@@ -1,0 +1,14 @@
+[Unit]
+Description=unixproxy for docker
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/unixproxy
+Restart=always
+RestartSec=5
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=1048576
+
+[Install]
+WantedBy=multi-user.target
