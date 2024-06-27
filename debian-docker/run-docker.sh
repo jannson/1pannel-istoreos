@@ -12,4 +12,6 @@ docker run --restart=unless-stopped -d \
 	-e TZ=Asia/Shanghai \
   --dns=172.17.0.1 \
   --dns=223.5.5.5 \
-	--name istorePanel istorepanel:0.3
+	--name iStorePanel linkease/istorepanel
+
+#	--name istorePanel istorepanel:0.3
