@@ -16,7 +16,13 @@ source /iStorePanel/env
 
 if which 1panel >/dev/null 2>&1; then
     echo "1Panel Linux 服务器运维管理面板已安装，请勿重复安装"
-
+    systemctl enable unixproxy.service 
+    systemctl start unixproxy
+    systemctl enable 1panel 
+    systemctl start 1panel 
+    exit 0
+else
+    echo "1Panel Linux binary installing"
     systemctl enable unixproxy.service 
     systemctl start unixproxy
     systemctl enable 1panel 
