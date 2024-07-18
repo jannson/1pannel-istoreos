@@ -157,6 +157,12 @@ function Init_Panel(){
 
     RUN_BASE_DIR=$PANEL_BASE_DIR/1panel
     mkdir -p $RUN_BASE_DIR
+
+    if [[ -f ${PANEL_BASE_DIR}/1panel/db/1Panel.db ]]; then
+      rm -rf ${PANEL_BASE_DIR}/db-bak
+      mv ${PANEL_BASE_DIR}/1panel/db ${PANEL_BASE_DIR}/db-bak
+    fi
+
     rm -rf $RUN_BASE_DIR/*
 
     cd ${CURRENT_DIR}
@@ -176,6 +182,11 @@ function Init_Panel(){
     sed -i -e "s#ORIGINAL_ENTRANCE=.*#ORIGINAL_ENTRANCE=${PANEL_ENTRANCE}#g" /usr/local/bin/1pctl
     if [[ ! -f /usr/bin/1pctl ]]; then
         ln -s /usr/local/bin/1pctl /usr/bin/1pctl >/dev/null 2>&1
+    fi
+
+    if [[ -d ${PANEL_BASE_DIR}/db-bak ]]; then
+      mkdir -p ${PANEL_BASE_DIR}/db
+      cp -rf ${PANEL_BASE_DIR}/db-bak/* ${PANEL_BASE_DIR}/db/
     fi
 
     cp ./1panel.service /etc/systemd/system

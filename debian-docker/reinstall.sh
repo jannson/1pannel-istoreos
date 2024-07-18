@@ -20,13 +20,6 @@ if which 1panel >/dev/null 2>&1; then
     systemctl start unixproxy
     systemctl enable 1panel 
     systemctl start 1panel 
-    exit 0
-else
-    echo "1Panel Linux binary installing"
-    systemctl enable unixproxy.service 
-    systemctl start unixproxy
-    systemctl enable 1panel 
-    systemctl start 1panel 
 	 
     for b in {1..30}
     do
@@ -47,6 +40,8 @@ cd /app
 
 systemctl enable unixproxy.service 
 systemctl start unixproxy
+
+echo "1Panel Linux binary installing"
 
 INSTALL_MODE="stable" && \
     ARCH=$(dpkg --print-architecture) && \
